@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MGNREGA - Truffle Webpack Demo w/ Frontend</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <div class="container page-header">
+    <h1>Money Contract</h1>
+    <p>This contract manages the money flow in the MGNREGA scheme</p>
+  </div>
+  <br>
+  <div id="get-balance-div">
+        <button type="button" class="btn btn-info-outline" id="get-balance" onclick="App.getBal()">Get Balance</button><br>
+  </div><br><br><br>
+  <div class="row">
+      <div class="card card-1" id="supply-to-gov-div">
+        <h4>Supply to Government</h4>
+        <br><center><div id="load-2"></div></center><br>
+        <div class="input-group top-block">
+          <input type="text" id="gov_budget" class="form-control">
+          <span class="input-group-addon">Government Budget</span>
+        </div><br><br><br><br>
+        <center><button type="button" class="btn btn-info-outline" id="send-money-to-gov" onclick="App.initializeGovBal()">Add Budget</button></center><br>
+      </div>
+	</div>
+  <div class="row">
+    <div class="card card-1" id="supply-project-to-gov-div">
+      <h4>Add Project to Government</h4>
+      <br><center><div id="load-2"></div></center><br>
+		  <div class="input-group top-block">
+        <input type="text" id="id2" class="form-control">
+        <span class="input-group-addon">Project ID</span>
+      </div><br>
+		  <div class="input-group top-block">
+        <input type="text" id="gpc_addr2" class="form-control">
+        <span class="input-group-addon">GPC Address</span>
+      </div><br>
+		  <div class="input-group top-block">
+        <input type="text" id="days2" class="form-control">
+        <span class="input-group-addon">No of Days</span>
+      </div><br>
+		  <div class="input-group top-block">
+        <input type="text" id="wagers2" class="form-control">
+        <span class="input-group-addon">No of Wagers</span>
+      </div><br>
+      <div class="input-group top-block">
+        <input type="text" id="budget" class="form-control">
+        <span class="input-group-addon">Project Budget</span>
+      </div><br><br><br><br>
+      <center><button type="button" class="btn btn-info-outline" id="add-project-to-gov" onclick="App.addProjectToGov()">Add Project</button></center><br>
+    </div>
+	</div>
+</body>
+</html>
