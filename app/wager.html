@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MGNREGA | Wager</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="./wagerApp.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Wager App</h1>
+      <p>This app is only for wager. All transactions related to wager are shown here</p>
+    </div>
+	  <div id="get-balance-div">
+      <button type="button" class="btn btn-info-outline" id="get-balance" onclick="App.getBal()">Get Balance</button><br>
+    </div><br><br><br>
+    <div id="get-hash-div">
+        <button type="button" class="btn btn-info-outline" id="get-hash" onclick="window.open('http://localhost:8080/hashGeneratorApp.html')">Get Hash</button><br>
+    </div>
+    <div class="row">
+      <div class="card card-1" id="confirm-by-wager-div">
+        <h4>Confirm by Wager</h4>
+        <br><center><div id="load-2"></div></center><br>
+          <div class="input-group top-block">
+            <input type="text" id="wager_addr1" class="form-control">
+            <span class="input-group-addon">Wager Address</span>
+          </div><br><br><br><br><br>
+          <center><button type="button" class="btn btn-info-outline" id="confirm-by-wager" onclick="App.confirm_supplyToWager_hash()">Confirm</button></center><br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card card-1" id="confirm-by-wager-div">
+        <h4>Wager Worked Hours</h4>
+        <br><center><div id="load-2"></div></center><br>
+        <div class="input-group top-block">
+          <input type="text" id="wager_addr2" class="form-control">
+          <span class="input-group-addon">Wager Address</span>
+        </div><br>
+		    <div class="input-group top-block">
+          <input type="text" id="hours1" class="form-control" onclick="App.getHoursWorked()">
+          <span class="input-group-addon">Total Worked Hours</span>
+        </div><br>
+		    <div class="input-group top-block">
+          <input type="text" id="DueHours1" class="form-control" onclick="App.getDueHoursNotPaid()">
+          <span class="input-group-addon">Total Due Hours</span>
+        </div><br><br><br><br><br>
+      </div>
+    </div>
+  </body>
+</html>

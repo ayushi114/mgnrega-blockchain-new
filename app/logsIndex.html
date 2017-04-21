@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Transaction Logs - MGNREGA</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="./logs.js" ></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Money Flow Logs</h1>
+      <p>This page shows all the money logs that have been recorded of the MGNREGA scheme in the Blockchain</p>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="list-group" id="money-added-to-stock-log">
+            <a href="#" class="list-group-item active">Money Added to Government Stock</a>
+            <a href="#" class="list-group-item list-group-item-action" id="load-1"><div class="loader"></div></a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:40%;">Transaction No.</th>
+                  <th style="width:60%;">Money Added</th>
+                </thead>
+                <tbody id="money-added-to-stock-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		    <div class="col-md-6">
+          <div class="list-group" id="money-supplied-to-gpc-log">
+            <a href="#" class="list-group-item active">Money Supplied to GPC</a>
+            <a href="#" class="list-group-item list-group-item-action" id="load-2"><div class="loader"></div></a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:60%;">GPC</th>
+                  <th style="width:40%;">Money Added</th>
+                    
+                </thead>
+                <tbody id="money-supplied-to-gpc-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		    <div class="col-md-6">
+          <div class="list-group" id="money-supplied-to-wager-log">
+            <a href="#" class="list-group-item active">Money Supplied to Wager</a>
+            <a href="#" class="list-group-item list-group-item-action" id="load-3"><div class="loader"></div></a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:25%;">GPC</th>
+                  <th style="width:25%;">Wager</th>
+					        <th style="width:25%;">Hours Paid For</th>
+                  <th style="width:25%;">Money Supplied</th>
+                </thead>
+                <tbody id="money-supplied-to-wager-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		  </div>
+		  <div class="clearfix"><hr size="2"></div>
+      <center>
+		
+          
+      </center>
+		  <div class="row">
+        <div class="col-md-6">
+          <div class="list-group" id="project-added-to-stock-log">
+            <a href="#" class="list-group-item active">Project Added to Government Stock</a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:20%;">Project ID</th>
+                  <th style="width:20%;">GPC Address</th>
+					        <th style="width:20%;">No of Hours</th>
+					        <th style="width:20%;">No of Wagers</th>
+					        <th style="width:20%;">Budget</th>
+                </thead>
+                <tbody id="project-added-to-stock-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		    <div class="col-md-6">
+          <div class="list-group" id="project-supplied-to-gpc-log">
+            <a href="#" class="list-group-item active">Project Supplied to GPC</a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:20%;">Project ID</th>
+                  <th style="width:20%;">GPC Address</th>
+					        <th style="width:20%;">No of Hours</th>
+					        <th style="width:20%;">No of Wagers</th>
+					        <th style="width:20%;">Budget</th>
+                </thead>
+                <tbody id="project-sent-to-stock-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		  </div>
+		  <div class="clearfix"><hr size="2"></div>
+		  <div class = "row">
+		   <div class="col-md-6">
+          <div class="list-group" id="payment-confirmed-by-gpc-log">
+            <a href="#" class="list-group-item active">Payment Confirmed By GPC</a>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th style="width:50%;">GPC</th>
+                  <th style="width:50%;">Budget</th>
+				        </thead>
+                <tbody id="payment-confirmed-by-gpc-table">
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		    <div class="col-md-6">
+          <div class="list-group" id="payment-confirmed-by-gpc-log">
+            <a href="#" class="list-group-item active">Payment Confirmed By Wager</a>
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                  <thead>
+                    <th style="width:50%;">Wager</th>
+                    <th style="width:50%;">Budget</th>
+					
+                    </thead>
+                  <tbody id="payment-confirmed-by-wager-table">
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+		    </div>
+		  <div class="clearfix"><hr size="2"></div>
+      <center>
+          <!-- <div class="col-md-12">
+            <a href="#" class="list-group-item active">Total Food Stock Summary</a> -->
+        <div class="loader" id="load-4"></div>
+          <!-- </div> -->
+      </center>
+      <div class="clearfix"><br></div>
+      <div class="row">
+        <div class="col-md-6" id="summary1">
+          <div class="list-group">
+          <a href="#" class="list-group-item active list-group-item-action">Government Money Summary</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <th style="width:40%;">Government</th>
+                <th style="width:30%;">Total Budget</th>
+				        <th style="width:30%;">Remaining Budget</th>
+              </thead>
+              <tbody id="summary1-table">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6" id="summary2">
+          <div class="list-group">
+            <a href="#" class="list-group-item active list-group-item-action">GPC Budget Summary</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <th style="width:40%;">GPC</th>
+                <th style="width:30%;">Total Budget</th>
+				        <th style="width:30%;">Remaining Budget</th>
+              </thead>
+              <tbody id="summary2-table">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-6" id="summary3">
+          <div class="list-group">
+            <a href="#" class="list-group-item active list-group-item-action">Wager Money Summary</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead>
+                <th style="width:60%;">Wager</th>
+                <th style="width:40%;">Total Budget</th>
+              </thead>
+              <tbody id="summary3-table">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"><br><br></div>
+		</div>
+  </body>
+</html>
