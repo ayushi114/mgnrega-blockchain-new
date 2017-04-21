@@ -86,7 +86,9 @@ window.App = {
   addProjectToGov: function(){
     var self = this;
     var user;
-	var id = document.getElementById('id2').value;
+
+	
+	  var id = document.getElementById('id2').value;
     var gpc = document.getElementById('gpc_addr2').value;
     var noOfDays = document.getElementById('days2').value;
 	  var budget = document.getElementById('budget').value;
