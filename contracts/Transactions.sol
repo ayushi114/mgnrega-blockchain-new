@@ -2,23 +2,22 @@ pragma solidity ^0.4.0;
 
 contract Transactions{
 	address public government;
-  uint fixedWagerPaymentperhr;
-  uint fixedPaymentToGPC;
-  uint public noOfProjects;
+	uint fixedWagerPaymentperhr;
+	uint fixedPaymentToGPC;
+	uint public noOfProjects;
 
-  mapping (address => paymentMade) balances;
-  mapping (address => wagers1) hourWorked;
-  mapping (address => mapping (uint => project)) ProjectsStock; 
-  mapping (uint => project) GovProjects;
-  struct paymentMade{
-    uint _type;
-    uint balance;
-		//address sender;
-    address receiver;
-	bytes32 transferHash;
-  }
-  
-  struct project{
+	mapping (address => paymentMade) balances;
+	mapping (address => wagers1) hourWorked;
+	mapping (address => mapping (uint => project)) ProjectsStock;
+	mapping (uint => project) GovProjects;
+	struct paymentMade{
+		uint _type;
+		uint balance;
+		address receiver;
+		bytes32 transferHash;
+	}
+
+	struct project{
 		address _gpc;
 		uint _noOfDays;
 		uint _noOfWagers;
@@ -27,41 +26,40 @@ contract Transactions{
 		bytes32 _transferHash;
 	}
 
-  struct wagers1{
-    uint hours1;
-    uint days1;
-    bool flag;
-    address user;
-	 //bytes32 transferHash;
-  }
-
-  modifier onlyGovernment{
-    if (msg.sender != government) throw;
-    _;
+	struct wagers1{
+		uint hours1;
+		uint days1;
+		bool flag;
+		address user;
 	}
 
-  event BudgetAddedToGovernment(address indexed _governmentAddress, uint _budget);
-  event PaymentMadeToGPC(address indexed _governmentAddress , address indexed _gpc, uint _amount);
-  event PaymentMadeToWager(address indexed _gpc, address indexed _wager, uint _hoursPaidFor, uint _amount);
-  event PaymentMadeToWager_HashLog(address indexed _gpc, address indexed _wager, uint _hoursPaidFor, uint _amount);
-  event PaymentConfirmedByWager(address indexed _wager,uint _balance);
-  
-  
-  event ProjectAddedToGov(uint _id, address _gpc, uint _noOfDays, uint _noOfWagers, uint _budget);
-  event ProjectSentToGPC(uint _id, address _gpc, uint _noOfDays, uint _noOfWagers, uint _budget);
-  event PaymentConfirmedByGPC(address indexed _gpc, uint _balance);
-  event WagerWorkedHours(address indexed _wager, uint _hours); // check/verify
-  
-	
+	modifier onlyGovernment{
+		if (msg.sender != government) throw;
+		_;
+	}
 
-  function Transactions() {
-    government = tx.origin;
-	noOfProjects = 0;
-    fixedWagerPaymentperhr = 100;
-    fixedPaymentToGPC = 50000;
-  }
+	event BudgetAddedToGovernment(address indexed _governmentAddress, uint _budget);
 
-  function addBudget(uint _budget) onlyGovernment returns (bool) {
+	event PaymentMadeToGPC(address indexed _governmentAddress , address indexed _gpc, uint _amount);
+	event PaymentMadeToWager(address indexed _gpc, address indexed _wager, uint _hoursPaidFor, uint _amount);
+	event PaymentMadeToWager_HashLog(address indexed _gpc, address indexed _wager, uint _hoursPaidFor, uint _amount);
+	event PaymentConfirmedByWager(address indexed _wager,uint _balance);
+
+	event ProjectAddedToGov(uint _id, address _gpc, uint _noOfDays, uint _noOfWagers, uint _budget);
+	event ProjectSentToGPC(uint _id, address _gpc, uint _noOfDays, uint _noOfWagers, uint _budget);
+
+	event PaymentConfirmedByGPC(address indexed _gpc, uint _balance);
+
+	event WagerWorkedHours(address indexed _wager, uint _hours); // check/verify
+
+	function Transactions() {
+		government = tx.origin;
+		noOfProjects = 0;
+		fixedWagerPaymentperhr = 100;
+		fixedPaymentToGPC = 50000;
+	}
+
+	function addBudget(uint _budget) onlyGovernment returns (bool) {
 		if (balances[government].receiver == address(0)) {
 			paymentMade memory newGovernmentPay;
 			newGovernmentPay.balance = _budget;
@@ -73,8 +71,8 @@ contract Transactions{
 			balances[government].balance += _budget;
 			BudgetAddedToGovernment(government, _budget);
 		}
-		
 	}
+
 	function addProjectToGov(uint id, address gpc, uint noOfDays, uint noOfWagers, uint budget) onlyGovernment returns (bool){
 		if (balances[government].balance < budget) throw;
 		if (ProjectsStock[gpc][id]._id != uint(0)) throw;
@@ -87,8 +85,8 @@ contract Transactions{
 		GovProjects[id] = item;
 		noOfProjects += 1;
 		ProjectAddedToGov(id, gpc, noOfDays, noOfWagers, budget);
-		
 	}
+
 	function sendProjectToGPC_hash(uint id, address gpc, bytes32 hash) onlyGovernment returns (bool) {
 		if(balances[government].balance < GovProjects[id]._budget) throw;
 		if(GovProjects[id]._id == uint(0)) throw;
@@ -116,7 +114,6 @@ contract Transactions{
 			else{
 				balances[gpc]._type = 1;
 				balances[gpc].balance += GovProjects[id]._budget;
-					//balances[gpc].transferHash = bytes32(0);
 				balances[government].balance -= GovProjects[id]._budget;
 				PaymentMadeToGPC(government, gpc, GovProjects[id]._budget);
 				ProjectSentToGPC(id, gpc, GovProjects[id]._noOfDays, GovProjects[id]._noOfWagers, GovProjects[id]._budget);
@@ -124,12 +121,10 @@ contract Transactions{
 			return true;
 		}
 	}
-	
-  
-  function payToWager(address _wager, address _gpc) returns (bool) {
+
+
+  	function payToWager(address _wager, address _gpc) returns (bool) {
 		if(balances[_gpc].receiver == address(0)) throw;
-		// Previous transfer not completed by customer
-		//if (zz[_customer][_foodIndex].transferHash != bytes32(0)) throw;
 		uint totalPaymentToWager;
 		uint hoursPaidFor;
 		totalPaymentToWager = fixedWagerPaymentperhr * getTotalHoursWorked(_wager);
@@ -157,9 +152,9 @@ contract Transactions{
 			PaymentMadeToWager(_gpc, _wager, hoursPaidFor, currentDueToPay);
 		}
 		return true;
-  }
-  
-  function payToWager_Hash(address _wager, address _gpc, bytes32 _hash) returns (bool) {
+	}
+
+  	function payToWager_Hash(address _wager, address _gpc, bytes32 _hash) returns (bool) {
 		if(balances[_gpc].receiver == address(0)) throw;
 		// Previous transfer not completed by customer
 		if (balances[_wager].transferHash != bytes32(0)) throw;
@@ -192,46 +187,48 @@ contract Transactions{
 			PaymentMadeToWager_HashLog(_gpc, _wager, hoursPaidFor, currentDueToPay);
 		}
 		return true;
-  }
-  // Wager can confirm the money transfered from gpc
-  // by looking at the transaction event
-  function confirm_gpcSupplyToWager_Hash(address _wager, string _secretKey) returns (bool) {
-    //if (_foodIndex >= numberOFFoodItems) throw;
-    if (balances[_wager].receiver == address(0)) throw;
-    if (balances[_wager].transferHash == bytes32(0)) throw;
-    bytes32 newHashCalculated = sha3(_secretKey);
-    bytes32 transferHash = balances[_wager].transferHash;
-    if (newHashCalculated != transferHash)
-      return false;
-    // lands here only when newHashCalculated == transferHash
-    balances[_wager].transferHash = bytes32(0);
-	PaymentConfirmedByWager(_wager,balances[_wager].balance);
-    return true;
-  }
-  
-  function confirm_govSupplyToGpc_Hash(uint id,address gpc, string _secretKey) returns (bool) {
-    //if (_foodIndex >= numberOFFoodItems) throw;
-	if (ProjectsStock[gpc][id]._gpc == address(0)) throw;
-    //if (balances[gpc].receiver == address(0)) throw;
-    if (ProjectsStock[gpc][id]._transferHash == bytes32(0)) throw;
-    bytes32 newHashCalculated = sha3(_secretKey);
-    bytes32 transferHash = ProjectsStock[gpc][id]._transferHash;
-    if (newHashCalculated != transferHash)
-      return false;
-    // lands here only when newHashCalculated == transferHash
-    ProjectsStock[gpc][id]._transferHash = bytes32(0);
-	PaymentConfirmedByGPC(gpc,ProjectsStock[gpc][id]._budget);
-    return true;
-  }
- 
-  function hoursWorked(address _wager) returns (bool) {
-    if(hourWorked[_wager].user == address(0)) {
+	}
+
+	// Wager can confirm the money transfered from gpc
+	// by looking at the transaction event
+	function confirm_gpcSupplyToWager_Hash(address _wager, string _secretKey) returns (bool) {
+		if (balances[_wager].receiver == address(0)) throw;
+		if (balances[_wager].transferHash == bytes32(0)) throw;
+		bytes32 newHashCalculated = sha3(_secretKey);
+		bytes32 transferHash = balances[_wager].transferHash;
+
+		if (newHashCalculated != transferHash)
+			return false;
+
+		// lands here only when newHashCalculated == transferHash
+		balances[_wager].transferHash = bytes32(0);
+		PaymentConfirmedByWager(_wager, balances[_wager].balance);
+		return true;
+	}
+
+	function confirm_govSupplyToGpc_Hash(uint id,address gpc, string _secretKey) returns (bool) {
+		if (ProjectsStock[gpc][id]._gpc == address(0)) throw;
+		if (ProjectsStock[gpc][id]._transferHash == bytes32(0)) throw;
+		bytes32 newHashCalculated = sha3(_secretKey);
+		bytes32 transferHash = ProjectsStock[gpc][id]._transferHash;
+
+		if (newHashCalculated != transferHash)
+			return false;
+
+		// lands here only when newHashCalculated == transferHash
+		ProjectsStock[gpc][id]._transferHash = bytes32(0);
+		PaymentConfirmedByGPC(gpc, ProjectsStock[gpc][id]._budget);
+		return true;
+	}
+
+	function hoursWorked(address _wager) returns (bool) {
+		if(hourWorked[_wager].user == address(0)) {
 			wagers1 memory newUser;
-      newUser.hours1 = 1;
-      newUser.flag = true;
-      newUser.days1 = 0;
-      newUser.user = _wager;
-      hourWorked[_wager] = newUser;
+			newUser.hours1 = 1;
+			newUser.flag = true;
+			newUser.days1 = 0;
+			newUser.user = _wager;
+			hourWorked[_wager] = newUser;
 			// also create paymentMade struct for the new user
 			paymentMade memory newUserPayment;
 			newUserPayment._type = 2;
@@ -240,39 +237,39 @@ contract Transactions{
 			balances[_wager] = newUserPayment;
 			WagerWorkedHours(_wager, 1);
 			return true;
-    }
+		}
 		if(hourWorked[_wager].flag == false) throw;
 		if(hourWorked[_wager].days1 == 120){
 			hourWorked[_wager].flag = false;
 			return false;
 		}
-  	if((hourWorked[_wager].hours1 < 7) && (hourWorked[_wager].days1 < 120)){
-  		hourWorked[_wager].hours1 += 1;
+		if((hourWorked[_wager].hours1 < 7) && (hourWorked[_wager].days1 < 120)){
+			hourWorked[_wager].hours1 += 1;
 			WagerWorkedHours(_wager, 1);
 			return true;
-  	}
-    if(((hourWorked[_wager].hours1 + 1) == 8) && (hourWorked[_wager].days1 < 120)){
-    	hourWorked[_wager].hours1 = 0;
-    	hourWorked[_wager].days1 += 1;
+		}
+		if(((hourWorked[_wager].hours1 + 1) == 8) && (hourWorked[_wager].days1 < 120)){
+			hourWorked[_wager].hours1 = 0;
+			hourWorked[_wager].days1 += 1;
 			WagerWorkedHours(_wager, 1);
 			//return true;
-    }
-  }
-	
-  function timeWorked(address _wager, uint _days, uint _hours) returns (bool) {
+		}
+	}
+
+	function timeWorked(address _wager, uint _days, uint _hours) returns (bool) {
 		if(_days > 120) throw;
-  	if(_hours >= 8) {
-  		_days += (_hours / 8);
-  		_hours = _hours % 8;
-  	}
-  	if(hourWorked[_wager].user == address(0)) {
+		if(_hours >= 8) {
+			_days += (_hours / 8);
+			_hours = _hours % 8;
+		}
+		if(hourWorked[_wager].user == address(0)) {
 			wagers1 memory newUser;
-      newUser.hours1 = _hours;
-      newUser.flag = true;
-      newUser.days1 = _days;
-      newUser.user = _wager;
-	    //newUser.transferHash = _hash;
-      hourWorked[_wager] = newUser;
+			newUser.hours1 = _hours;
+			newUser.flag = true;
+			newUser.days1 = _days;
+			newUser.user = _wager;
+			//newUser.transferHash = _hash;
+			hourWorked[_wager] = newUser;
 			// also create paymentMade struct for the new user
 			paymentMade memory newUserPayment;
 			newUserPayment._type = 2;
@@ -281,36 +278,29 @@ contract Transactions{
 			balances[_wager] = newUserPayment;
 			WagerWorkedHours(_wager, _hours + (_days * 8));
 			return true;
-  	}
+		}
 		if((hourWorked[_wager].days1 + _days) > 120) throw;
-   	if((hourWorked[_wager].hours1 + _hours) < 8) {
-  		hourWorked[_wager].hours1 += _hours;
-  		hourWorked[_wager].days1 += _days;
-			WagerWorkedHours(_wager, _hours + (_days * 8));
-			return true;
-  	}
-    if((hourWorked[_wager].hours1 + _hours) == 8) {
-    	hourWorked[_wager].hours1 = 0;
-    	hourWorked[_wager].days1 += 1;
+		if((hourWorked[_wager].hours1 + _hours) < 8) {
+			hourWorked[_wager].hours1 += _hours;
 			hourWorked[_wager].days1 += _days;
 			WagerWorkedHours(_wager, _hours + (_days * 8));
 			return true;
-    }
+		}
+		if((hourWorked[_wager].hours1 + _hours) == 8) {
+			hourWorked[_wager].hours1 = 0;
+			hourWorked[_wager].days1 += 1;
+			hourWorked[_wager].days1 += _days;
+			WagerWorkedHours(_wager, _hours + (_days * 8));
+			return true;
+		}
 		if((hourWorked[_wager].hours1 + _hours) > 8) {
-    	hourWorked[_wager].hours1 = hourWorked[_wager].hours1 + _hours - 8;
-    	hourWorked[_wager].days1 += 1;
+			hourWorked[_wager].hours1 = hourWorked[_wager].hours1 + _hours - 8;
+			hourWorked[_wager].days1 += 1;
 			hourWorked[_wager].days1 += _days;
 			WagerWorkedHours(_wager, _hours + (_days * 8));
 			return true;
-    }
-  }
-  //----------------------------------------------------------------------------------------------------------------------
-
-	// Implemented more functions to get more info
-	// to get wager's :
-	//		-> pending amount to be paid by gpc for hours/days worked
-	//		-> pending hours for which to be paid
-	//		-> days and hours worked (not total hours but separately)
+		}
+	}
 
 	function getWagerWorkedTime(address _wager) constant returns (uint, uint) {
 		uint workedHours;
@@ -353,5 +343,4 @@ contract Transactions{
 		}
 		return balance;
 	}
-
 }
